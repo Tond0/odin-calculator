@@ -1,0 +1,42 @@
+* {
+    margin: 0px;
+}
+
+#containerCalculator {
+
+}
+
+#logCalculator {
+
+}
+
+#containerButtons {
+    display: grid;
+    grid-template-rows: repeat(5, 150px);
+    grid-template-columns: repeat(4, 150px);
+
+    gap: 12px;
+}
+
+.button {
+    grid-row: span 1;
+    grid-column: span 1;
+}
+
+.button.number{
+    background-color: blue;
+}
+
+.button.operator{
+    background-color: pink;
+}
+
+.button.bigHorizontal{
+    grid-row: span 1;
+    grid-column: span 2;
+}
+
+.button.bigVertical{
+    grid-row: span 2;
+    grid-column: span 1;
+}
