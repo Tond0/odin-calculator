@@ -43,6 +43,11 @@ buttonEnter.addEventListener('click', () => OnEnterButtonClicked());
 const buttonDot = document.querySelector('.dot');
 buttonDot.addEventListener('click', () => OnDotButtonClicked());
 
+const buttonDEL = document.querySelector('.del');
+buttonDEL.addEventListener('click', () => ClearCalcData());
+
+const paragraphLogCalculator = document.querySelector('#logCalculator');
+
 
 buttonContainer.addEventListener('click', (e) => {
     const clickedBtn = e.target;
@@ -99,8 +104,13 @@ function OnEnterButtonClicked() {
     const result = currentOperation.Calculate(currentFistNumber, currentSecondNumber);
 
     console.log("Il risultato è: " + result);
+    paragraphLogCalculator.innerHTML = result;
 
-    ClearCalcData();
+    currentFistNumber = result;
+    currentSecondNumber = 0;
+
+    decimalMultiplier = 1;
+    isDecimal = false;
 }
 
 function OnDotButtonClicked() {
@@ -115,5 +125,7 @@ function ClearCalcData() {
 
     decimalMultiplier = 1;
     isDecimal = false;
+
+    paragraphLogCalculator.innerHTML = 0;
 }
 
