@@ -31,7 +31,9 @@ const OP_TYPES = Object.freeze({
 let currentFistNumber = 0;
 let currentSecondNumber = 0;
 let currentOperation = null;
-let isDecimalNumber = false;
+
+let decimalMultiplier = 1;
+let isDecimal = false;
 
 const buttonContainer = document.querySelector('#containerButtons')
 
@@ -39,7 +41,7 @@ const buttonEnter = document.querySelector('.enter');
 buttonEnter.addEventListener('click', () => OnEnterButtonClicked());
 
 const buttonDot = document.querySelector('.dot');
-buttonEnter.addEventListener('click', () => OnDotButtonClicked());
+buttonDot.addEventListener('click', () => OnDotButtonClicked());
 
 
 buttonContainer.addEventListener('click', (e) => {
@@ -57,21 +59,26 @@ buttonContainer.addEventListener('click', (e) => {
 
 
 function OnButtonNumberClicked(newNumber) {
-    if (isDecimalNumber) 
-    {
+    if (!isDecimal) {
+
         if (!currentOperation)
-            currentFistNumber += newNumber;
+            currentFistNumber = (currentFistNumber * 10) + newNumber;
+
         else
-            currentSecondNumber += newNumber;
+            currentSecondNumber = (currentSecondNumber * 10) + newNumber;
+
     }
-    else
-    {
+    else {
+
+        let newDecimalPart = newNumber / (10 * decimalMultiplier);
+
         if (!currentOperation)
-            currentFistNumber = newNumber;
+            currentFistNumber += newDecimalPart;
         else
-            currentSecondNumber = newNumber;
+            currentSecondNumber += newDecimalPart;
+
+        decimalMultiplier *= 10;
     }
-    
 }
 
 function OnButtonOperationClicked(newOperationData) {
@@ -80,9 +87,15 @@ function OnButtonOperationClicked(newOperationData) {
     if (!newOperation) return;
 
     currentOperation = newOperation;
+
+    //Reset decimal multiplaier for number 2
+    decimalMultiplier = 1;
+    isDecimal = false;
 }
 
 function OnEnterButtonClicked() {
+    if (!currentOperation) return;
+
     const result = currentOperation.Calculate(currentFistNumber, currentSecondNumber);
 
     console.log("Il risultato è: " + result);
@@ -91,13 +104,16 @@ function OnEnterButtonClicked() {
 }
 
 function OnDotButtonClicked() {
-    isDecimalNumber = true;
+    isDecimal = true;
+    decimalMultiplier = 1;
 }
 
 function ClearCalcData() {
     currentFistNumber = 0;
     currentSecondNumber = 0;
     currentOperation = null;
-    isDecimalNumber = false;
+
+    decimalMultiplier = 1;
+    isDecimal = false;
 }
 
